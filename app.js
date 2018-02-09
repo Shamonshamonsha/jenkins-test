@@ -25,7 +25,7 @@ var corsOptions = {
   }
 };
 
-var csrfProtection = csrf({ cookie: false })
+var csrfProtection = csrf({ cookie: true })
 
 //app.use(function(req,res,next){ req.headers.origin = req.headers.origin || req.headers.host; next(); })
 
