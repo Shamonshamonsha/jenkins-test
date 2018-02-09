@@ -1,0 +1,7 @@
+-#!/bin/sh      
+  
+ cd /var/accubits-workspace/nlpsdk/testApp
+ nodemon 
+ 
+ exit       
+EOF
