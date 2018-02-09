@@ -14,7 +14,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/test',function(req,res){
 
-  res.send('ok');
+  res.send('ok changed');
 })
 
 module.exports = router;
