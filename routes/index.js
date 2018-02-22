@@ -8,6 +8,8 @@ router.get('/', function(req, res, next) {
   console.log(req.cookies.mycookie);
 
   console.log("origin",req.headers.origin);
+
+  console.log("Session",req.session.simple);
   res.json({ "speech": response, "displayText": response });
 });
 

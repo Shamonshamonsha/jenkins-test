@@ -13,7 +13,7 @@ var users = require('./routes/users');
 
 var app = express();
 
-var whitelist = ['http://localhost:8080','localhost:3000']
+var whitelist = ['http://localhost:3002']
 var corsOptions = {
   origin: function (origin, callback) {
     console.log("origin",origin);
@@ -22,14 +22,16 @@ var corsOptions = {
     } else {
       callback(new Error('Not allowed by CORS'))
     }
-  }
+  },
+  credentials: true,
+  exposedHeaders:'X-CSRFTOKEN'
 };
 
-var csrfProtection = csrf({ cookie: true })
+var csrfProtection = csrf({ cookie: false,key:'csrfToken'})
 
-//app.use(function(req,res,next){ req.headers.origin = req.headers.origin || req.headers.host; next(); })
+app.use(function(req,res,next){ req.headers.origin = req.headers.origin || req.headers.host; next(); })
 
-//app.use(cors(corsOptions));
+app.use(cors(corsOptions));
 
 
 
@@ -44,9 +46,19 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(session({
-    secret:'myKeygdjg87182'
+    secret:'myKeygdjg87182',
+    resave: true,
+    saveUninitialized: true,
+    name: 'sessionId'
   }));
+
 app.use(csrfProtection);
+
+app.use(function(req, res, next) {
+  console.log("Token",req.csrfToken());
+  res.setHeader('X-CSRFTOKEN',req.csrfToken())
+  next();
+});
 
 app.use(express.static(path.join(__dirname, 'public')));
 
