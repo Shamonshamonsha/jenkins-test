@@ -11,9 +11,13 @@ var session = require('express-session');
 var index = require('./routes/index');
 var users = require('./routes/users');
 
+
 var app = express();
 
-var whitelist = ['http://localhost:3002']
+
+
+
+var whitelist = ['http://localhost:3002','localhost:3000','36ed3702.ngrok.io']
 var corsOptions = {
   origin: function (origin, callback) {
     console.log("origin",origin);
@@ -31,7 +35,7 @@ var csrfProtection = csrf({ cookie: false,key:'csrfToken'})
 
 app.use(function(req,res,next){ req.headers.origin = req.headers.origin || req.headers.host; next(); })
 
-app.use(cors(corsOptions));
+//app.use(cors(corsOptions));
 
 
 
@@ -52,13 +56,13 @@ app.use(session({
     name: 'sessionId'
   }));
 
-app.use(csrfProtection);
+//app.use(csrfProtection);
 
-app.use(function(req, res, next) {
-  console.log("Token",req.csrfToken());
-  res.setHeader('X-CSRFTOKEN',req.csrfToken())
-  next();
-});
+//app.use(function(req, res, next) {
+  //console.log("Token",req.csrfToken());
+  //res.setHeader('X-CSRFTOKEN',req.csrfToken())
+ // next();
+//});
 
 app.use(express.static(path.join(__dirname, 'public')));
 
